@@ -74,11 +74,15 @@ const highScoreElement = document.querySelector("#high-score");
 const scoreElement = document.querySelector("#score");
 const timeElement = document.querySelector("#time");
 
+const blockSize = window.innerWidth <= 475 ?10:20;
+
 const blockheight = 20;
 const blockwidth = 20;
 
 const cols = Math.floor(board.clientWidth / blockwidth);
 const rows = Math.floor(board.clientHeight / blockheight);
+const startX = Math.floor(rows / 2);
+const startY = Math.floor(cols / 2);
 
 let food = {
   x: Math.floor(Math.random() * rows),
@@ -103,16 +107,16 @@ const blocks = [];
 //!creating snake body---------------------
 const snake = [
   {
-    x: 16,
-    y: 17,
+    x: startX,
+    y: startY,
   },
   {
-    x: 16,
-    y: 18,
+    x: startX,
+    y: startY + 1,
   },
   {
-    x: 16,
-    y: 19,
+    x: startX,
+    y: startY + 2,
   },
 ];
 
@@ -363,8 +367,17 @@ restartButton.addEventListener("click", () => {
 //!function to reset the game variables and update the score and time elements
 
 function resetGame() {
+  const startX = Math.floor(rows / 2);
+  const startY = Math.floor(cols / 2);
+
   snake.length = 0;
-  snake.push({ x: 16, y: 17 }, { x: 16, y: 18 }, { x: 16, y: 19 });
+
+  snake.push(
+    { x: startX, y: startY },
+    { x: startX, y: startY + 1 },
+    { x: startX, y: startY + 2 },
+  );
+
   currentdirection = "left";
   nextDirection = "left";
   score = 0;
@@ -382,8 +395,16 @@ function regenerateSnake() {
   snake.forEach((segment) => {
     blocks[`${segment.x}-${segment.y}`].classList.remove("fill");
   });
+  const startX = Math.floor(rows / 2);
+  const startY = Math.floor(cols / 2);
+
   snake.length = 0;
-  snake.push({ x: 16, y: 17 }, { x: 16, y: 18 }, { x: 16, y: 19 });
+
+  snake.push(
+    { x: startX, y: startY },
+    { x: startX, y: startY + 1 },
+    { x: startX, y: startY + 2 },
+  );
   currentDirection = "left";
   nextDirection = "left";
   snake.forEach((segment) => {
@@ -442,7 +463,7 @@ function pausedGame() {
   isPaused = true;
   clearInterval(intervalId);
   clearInterval(timerIntervalId);
-  pauseIcon.innerHTML='<i class="fa-solid fa-play"></i>';
+  pauseIcon.innerHTML = '<i class="fa-solid fa-play"></i>';
 
   bgSound.pause();
 }
@@ -452,16 +473,13 @@ function resumeGame() {
   intervalId = setInterval(render, fps);
   startTimer();
   bgSound.play();
-  pauseIcon.innerHTML='<i class="fa-solid fa-pause"></i>';
+  pauseIcon.innerHTML = '<i class="fa-solid fa-pause"></i>';
 }
-
 
 pauseBtn.addEventListener("click", () => {
   if (isPaused) {
     resumeGame();
-   
   } else {
     pausedGame();
-    
   }
 });

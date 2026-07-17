@@ -25,6 +25,8 @@
 
  }
  :root{
+
+  
     /* Background Color */
     --bg-primary-color:rgb(29, 29, 29);
     --bg-fill-color:rgb(0, 255, 0);
@@ -149,7 +151,7 @@
  .modal .start-game,.modal .game-over{
    height:auto;
    width:min(90vw,420px);
-   padding: var(--space-sm);
+   padding: var(--space-xl);
    display:flex;
    flex-direction:column;
    justify-content:center;
